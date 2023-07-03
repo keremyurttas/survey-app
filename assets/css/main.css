@@ -1,3 +1,70 @@
 @tailwind base;
 @tailwind components;
+body {
+  @apply bg-primary;
+}
+.container {
+  @apply xl:max-w-5xl md:max-w-2xl max-w-none mx-auto flex justify-center;
+}
+.primary-button {
+  @apply lg:px-5 lg:py-3 px-2 py-1 shadow-primary  md:text-xl bg-secondary text-white font-semibold rounded-md;
+}
+.slideOutUp {
+  -webkit-animation-name: example;
+  animation-name: example;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@keyframes example {
+  from {
+    color: red;
+    font-size: 333px;
+  }
+  to {
+    color: yellow;
+  }
+}
+
+@keyframes slideOutUp {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  100% {
+    visibility: hidden;
+    -webkit-transform: translateY(-200%);
+    transform: translateY(-200%);
+    opacity: 0;
+  }
+}
+@keyframes slideOutDown{
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  0% {
+    visibility: hidden;
+    -webkit-transform: translateY(-200%);
+    transform: translateY(-200%);
+    opacity: 0;
+  }
+}
+.test{
+  -webkit-animation-name: slideOutDown;
+  animation-name: slideOutDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  transition: 0.3s ease ;
+}
+.myGroup:hover .test {
+  -webkit-animation-name: slideOutUp;
+  animation-name: slideOutUp;
+
+}
 @tailwind utilities;
