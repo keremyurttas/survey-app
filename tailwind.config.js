@@ -21,6 +21,7 @@ module.exports = {
         primary: "0px 0px 140px 5px #ffff",
         primary_hover:"0px 0px 10px 5px #1f1f1f",
         secondary_hover: "0px 0px 120px 5px #EFBF24",
+        primary_hover_circle: " 0px 0px 100px 20px #ffff",
         secondary: " 0px 0px 80px 5px #EFBF24",
       },
       textColor: {

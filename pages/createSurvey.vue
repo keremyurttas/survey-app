@@ -1,5 +1,7 @@
 <template>
-  <section class="container flex-col lg:justify-normal lg:gap-20 h-[80vh] justify-between py-10 px-2 lg:p-0">
+  <section
+    class="container flex-col lg:justify-normal lg:gap-20 h-[80vh] justify-between py-10 px-2 lg:p-0"
+  >
     <div class="space-y-3">
       <span class="block opacity-70">The title for your survey</span>
       <input
@@ -17,11 +19,13 @@
     </div>
 
     <div class="flex justify-end">
-      <button
-        class="w-min primary-button bg-slate-500 hover:bg-slate-600 hover:shadow-primary_hover"
-      >
-        Continue
-      </button>
+      <nuxt-link to="addQuestion">
+        <button
+          class="w-min primary-button bg-slate-500 hover:bg-slate-600 hover:shadow-primary_hover"
+        >
+          Continue
+        </button>
+      </nuxt-link>
     </div>
   </section>
 </template>
