@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between w-full p-5 text-3xl">
+  <div class="flex justify-between w-full  text-3xl">
     <div
       v-for="(option, index) in options"
       :key="index"

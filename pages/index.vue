@@ -10,6 +10,5 @@
         START
       </button></nuxt-link
     >
-    >
   </section>
 </template>
