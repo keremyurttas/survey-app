@@ -1,11 +1,11 @@
 <template>
-  <div class="flex justify-between w-full  text-3xl">
+  <div class="flex justify-between w-full text-3xl">
     <div
       v-for="(option, index) in options"
       :key="index"
       class="flex flex-col items-center gap-2 lg:gap-4"
     >
-      <label class="lg:text-4xl text-lg capitalize" :for="option">{{
+      <label class="lg:text-3xl text-lg capitalize" :for="option">{{
         option
       }}</label>
       <input

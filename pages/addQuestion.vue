@@ -8,7 +8,13 @@
   </section>
 </template>
 <script setup lang="ts">
-const answerOptions: string[] = ["text", "multiple", "degree", "single"];
+const answerOptions: string[] = [
+  "single",
+  "multiple",
+  "text",
+  "degree",
+  "yes / no",
+];
 const activeOption: Ref<string> = ref("");
 function handleTypeChange(e: string) {
   activeOption.value = e;
