@@ -13,6 +13,7 @@ textarea {
 .primary-button {
   @apply lg:px-5 lg:py-3 px-2 py-1 shadow-primary  md:text-xl bg-secondary text-white font-semibold rounded-md;
 }
+
 input[type="radio"] {
   accent-color: #5957ff;
 }

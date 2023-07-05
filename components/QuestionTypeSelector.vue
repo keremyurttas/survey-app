@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between w-full text-3xl">
     <div
-      v-for="(option, index) in options"
+      v-for="(option, index) in optionsList"
       :key="index"
       class="flex flex-col items-center gap-2 lg:gap-4"
     >
@@ -9,24 +9,23 @@
         option
       }}</label>
       <input
-        v-model="activeOption"
+        v-model="activeOptionType"
         class="text-gray-300 w-min checked:shadow-primary_hover_circle"
         type="radio"
         name="answer_type"
         ref="test"
         :value="option"
         :id="option"
-        @input="$emit('change', activeOption)"
+        @input="changeOption(index)"
       />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-defineProps<{
-  options: string[];
-}>();
-defineEmits<{
-  (name: "change"): void;
-}>();
-const activeOption: Ref<string> = ref("");
+import { useOptionsStore } from "~/store/questionTypes";
+import { storeToRefs } from "pinia";
+
+const optionStore = useOptionsStore();
+const { changeOption } = optionStore;
+const { activeOptionType, optionsList } = storeToRefs(optionStore);
 </script>

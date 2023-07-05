@@ -9,7 +9,9 @@
       placeholder="Your Question"
     />
 
-    <section>
+    <section
+      v-if="activeOptionType == 'multiple' || activeOptionType == 'single'"
+    >
       <div class="space-y-3">
         <div class="space-y-2" v-for="(input, index) in answers.length + 1">
           <hr />
@@ -39,17 +41,31 @@
           >
           <hr />
         </div>
-        <button @click="handleAddAnswer" class="primary-button float-right">
-          +
-        </button>
+        <div class="float-right flex flex-col gap-8">
+          <button @click="handleAddAnswer" class="primary-button w-min">
+            +
+          </button>
+          <button
+            class="capitalize primary-button bg-quaternary shadow-none border hover:scale-110"
+          >
+            next question
+          </button>
+        </div>
       </div>
     </section>
   </section>
 </template>
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useOptionsStore } from "~/store/questionTypes";
+
 const answers: Ref<string[]> = ref([]);
 const activeIndex = ref(0);
 const activeVal: Ref<string> = ref("");
+
+const optionStore = useOptionsStore();
+const { activeOptionType } = storeToRefs(optionStore);
+
 // const isInputFocused = ref(false);
 function handleAddAnswer() {
   if (activeVal.value.trim() !== "") {
