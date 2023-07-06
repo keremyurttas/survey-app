@@ -92,17 +92,21 @@ function handleDeleteOption() {
 }
 
 function handleNextQuestion() {
-  if (activeVal.value.trim() !== "") {
+  if (doesNeedAnAnswer.value && activeVal.value.trim() !== "") {
     answers.value.push(activeVal.value);
   }
-  if (doesNeedAnAnswer && answers.value.length == 0) {
+  if (question.value.trim() == "") {
+    alert("You should type question");
+  } else if (doesNeedAnAnswer.value == true && answers.value.length == 0) {
     alert("You should add answers");
+  } else {
+    addQuestion({
+      type: activeOptionType.value,
+      question: question.value,
+      answers: answers.value,
+    });
   }
-  addQuestion({
-    type: activeOptionType.value,
-    question: question.value,
-    answers: answers.value,
-  });
+
   resetForNewQuesiton();
 }
 function resetForNewQuesiton() {

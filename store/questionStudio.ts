@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { surveyDetails } from "./interfaces";
+import { surveyDetails,question } from "./interfaces";
 
 ////////Survey/////////
 const surveyDetails: Ref<surveyDetails> = ref({ title: "", description: "" });
@@ -13,8 +13,8 @@ export const useQuestionStudioStore = defineStore("questionStudio", () => {
   }
   ////////Question/////////
 
-  const questions: Ref<object[]> = ref([]);
-  function addQuestion(question: object) {
+  const questions: Ref<question[]> = ref([]);
+  function addQuestion(question: question) {
     questions.value.push(question);
   }
   return {
