@@ -22,10 +22,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useOptionsStore } from "~/store/questionTypes";
+import { useQuestionStudioStore } from "~/store/questionStudio";
 import { storeToRefs } from "pinia";
 
-const optionStore = useOptionsStore();
-const { changeOption } = optionStore;
-const { activeOptionType, optionsList } = storeToRefs(optionStore);
+const QuestionStudioStore = useQuestionStudioStore();
+const { changeOption } = QuestionStudioStore;
+const { activeOptionType, optionsList } = storeToRefs(QuestionStudioStore);
 </script>
+store/addQuestion

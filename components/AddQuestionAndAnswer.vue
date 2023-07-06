@@ -1,5 +1,5 @@
 <template>
-  <section class="space-y-8">
+  <section class="space-y-8 container relative pb-16">
     <textarea
       class="text-4xl border p-4"
       name=""
@@ -7,11 +7,10 @@
       cols="10"
       rows="1"
       placeholder="Your Question"
+      v-model="question"
     />
 
-    <section
-      v-if="activeOptionType == 'multiple' || activeOptionType == 'single'"
-    >
+    <section v-if="doesNeedAnAnswer">
       <div class="space-y-3">
         <div class="space-y-2" v-for="(input, index) in answers.length + 1">
           <hr />
@@ -41,32 +40,42 @@
           >
           <hr />
         </div>
-        <div class="float-right flex flex-col gap-8">
-          <button @click="handleAddAnswer" class="primary-button w-min">
-            +
-          </button>
-          <button
-            class="capitalize primary-button bg-quaternary shadow-none border hover:scale-110"
-          >
-            next question
-          </button>
-        </div>
+
+        <button
+          @click="handleAddAnswer"
+          class="primary-button w-min float-right"
+        >
+          +
+        </button>
       </div>
     </section>
+    <button
+      @click="handleNextQuestion"
+      class="capitalize primary-button bg-quaternary shadow-none border hover:scale-110 absolute bottom-0 right-0"
+    >
+      next question
+    </button>
   </section>
 </template>
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useOptionsStore } from "~/store/questionTypes";
+import { useQuestionStudioStore } from "~/store/questionStudio";
 
 const answers: Ref<string[]> = ref([]);
 const activeIndex = ref(0);
 const activeVal: Ref<string> = ref("");
+const question: Ref<string> = ref("");
 
-const optionStore = useOptionsStore();
-const { activeOptionType } = storeToRefs(optionStore);
+const questionStudioStore = useQuestionStudioStore();
+const { addQuestion } = questionStudioStore;
+const { activeOptionType, questions } = storeToRefs(questionStudioStore);
+const doesNeedAnAnswer = computed(() => {
+  return activeOptionType.value == "multiple" ||
+    activeOptionType.value == "single"
+    ? true
+    : false;
+});
 
-// const isInputFocused = ref(false);
 function handleAddAnswer() {
   if (activeVal.value.trim() !== "") {
     activeIndex.value++;
@@ -81,6 +90,29 @@ function handleDeleteOption() {
     console.log(answers.value);
   }
 }
+
+function handleNextQuestion() {
+  if (activeVal.value.trim() !== "") {
+    answers.value.push(activeVal.value);
+  }
+  if (doesNeedAnAnswer && answers.value.length == 0) {
+    alert("You should add answers");
+  }
+  addQuestion({
+    type: activeOptionType.value,
+    question: question.value,
+    answers: answers.value,
+  });
+  resetForNewQuesiton();
+}
+function resetForNewQuesiton() {
+  activeOptionType.value = "single";
+  question.value = "";
+  answers.value = [];
+  activeIndex.value = 0;
+  activeVal.value = "";
+}
+// const isInputFocused = ref(false);
 // function addFocusListener() {
 //   document
 //     .getElementById("activeInput")
@@ -111,3 +143,4 @@ function handleDeleteOption() {
 //   console.log("blur");
 // }
 </script>
+store/addQuestion
