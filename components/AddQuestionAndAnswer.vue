@@ -147,4 +147,3 @@ function resetForNewQuesiton() {
 //   console.log("blur");
 // }
 </script>
-store/addQuestion
