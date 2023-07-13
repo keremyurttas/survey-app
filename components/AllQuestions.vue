@@ -1,7 +1,5 @@
 <template>
-  <section
-    class="fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-screen h-screen flex justify-center items-center"
-  >
+  <section class="popup flex justify-center items-center">
     <div
       class="z-50 flex items-center flex-col gap-20 p-20 bg-quaternary rounded-lg w-2/3 h-2/3 relative"
     >

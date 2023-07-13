@@ -39,7 +39,6 @@ import { useQuestionStudioStore } from "~/store/questionStudio";
 
 const description = ref("");
 const title = ref("");
-
 const questionStudio = useQuestionStudioStore();
 const { surveyDetails } = storeToRefs(questionStudio);
 

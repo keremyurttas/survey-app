@@ -4,6 +4,9 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useGeneralStore } from "~/store/general";
+const generalStore = useGeneralStore();
+const { changeVisibility } = generalStore;
 
 export const createUser = async (email: string, password: string) => {
   const auth = getAuth();
@@ -16,18 +19,22 @@ export const createUser = async (email: string, password: string) => {
     const errorMessage = error.message;
     // ..
   });
+  console.log(credentials);
   return credentials;
 };
 export const signInUser = async (email: string, password: string) => {
+  let isThereError = false;
   const auth = getAuth();
   const credentials = await signInWithEmailAndPassword(
     auth,
     email,
     password
   ).catch((error) => {
+    isThereError = true;
     const errorCode = error.code;
     const errorMessage = error.message;
   });
+
   return credentials;
 };
 export const initUser = async () => {
@@ -35,8 +42,9 @@ export const initUser = async () => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
-      console.log(user);
+      return true;
     } else {
+      return false;
     }
   });
 };
@@ -45,6 +53,7 @@ export const signOutUser = async () => {
   const auth = getAuth();
   const result = await auth.signOut();
   console.log("Sign out:", result);
+  localStorage.setItem("user-email", "");
 };
 
 // export const signInUserWGoogle = async () => {
