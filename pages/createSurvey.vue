@@ -40,16 +40,13 @@ import { useQuestionStudioStore } from "~/store/questionStudio";
 const description = ref("");
 const title = ref("");
 const questionStudio = useQuestionStudioStore();
-const { surveyDetails } = storeToRefs(questionStudio);
+const { changeSurveyDetails } = questionStudio;
 
 function saveTitleAndDescription() {
   if (title.value.trim() == "") {
     alert("Title is missing");
   } else {
-    surveyDetails.value = {
-      title: title.value,
-      description: description.value,
-    };
+    changeSurveyDetails(title.value, description.value);
   }
 }
 </script>

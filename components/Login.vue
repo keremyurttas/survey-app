@@ -1,8 +1,8 @@
 <template>
-  <section class="w-1/2 h-2/3 bg-quaternary">
+  <section class="lg:w-1/2 lg:h-2/3 bg-quaternary">
     <button
       @click="changeVisibility"
-      class="absolute right-8 top-8 text-xl bg-tertary p-2 text-black rounded-xl"
+      class="esc-button"
     >
       esc
     </button>
@@ -45,17 +45,22 @@ const email = ref("");
 const password = ref("");
 
 async function handleSubmit() {
+  //check for active mode
   modes[activeModeIndex.value] === "sign-in"
-    ? (await signInUser(email.value, password.value))
-      ? (changeVisibility(),
-        localStorage.setItem("user-email", email.value),
-        changeLoginStatus())
+    ? //check for is user signed in succesfuly.
+      (await signInUser(email.value, password.value))
+      ? succesfulLogin()
       : (errorMessage.value = "Check your informations")
-    : (await createUser(email.value, password.value))
-    ? (changeVisibility(),
-      localStorage.setItem("user-email", email.value),
-      changeLoginStatus())
+    : //check for is user signed up succesfuly.
+    (await createUser(email.value, password.value))
+    ? succesfulLogin()
     : (errorMessage.value = "Check your e-mail address");
+}
+
+function succesfulLogin() {
+  changeVisibility();
+  localStorage.setItem("user-email", email.value);
+  changeLoginStatus();
 }
 </script>
 <style scoped>

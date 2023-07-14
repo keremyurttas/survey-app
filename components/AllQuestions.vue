@@ -1,10 +1,10 @@
 <template>
   <section class="popup flex justify-center items-center">
     <div
-      class="z-50 flex items-center flex-col gap-20 p-20 bg-quaternary rounded-lg w-2/3 h-2/3 relative"
+      class="z-50 flex items-center flex-col gap-20 lg:p-20 py-12 px-4 bg-quaternary rounded-lg w-2/3 h-2/3 relative"
     >
       <button
-        class="absolute right-8 top-8 text-xl bg-tertary p-2 text-black rounded-xl"
+        class="esc-button"
         @click="emit('close')"
       >
         esc

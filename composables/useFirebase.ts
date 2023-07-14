@@ -6,7 +6,6 @@ import {
 } from "firebase/auth";
 import { useGeneralStore } from "~/store/general";
 const generalStore = useGeneralStore();
-const { changeVisibility } = generalStore;
 
 export const createUser = async (email: string, password: string) => {
   const auth = getAuth();
@@ -56,6 +55,23 @@ export const signOutUser = async () => {
   localStorage.setItem("user-email", "");
 };
 
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "~/plugins/firebase.client";
+import { Survey } from "~/types/composables";
+export const sendSurvey = async (survey: Survey) => {
+  try {
+    const docRef = await addDoc(collection(db, "surveys"), {
+      title: survey.title,
+      description: survey.description,
+      owner: survey.owner,
+      date: survey.date,
+      questions: survey.questions,
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
 // export const signInUserWGoogle = async () => {
 //   const provider = new GoogleAuthProvider();
 //   const auth = getAuth();

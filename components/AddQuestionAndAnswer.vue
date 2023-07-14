@@ -49,12 +49,18 @@
         </button>
       </div>
     </section>
-    <button
-      @click="handleNextQuestion"
-      class="capitalize primary-button bg-quaternary shadow-none border hover:scale-110 absolute bottom-0 right-0"
-    >
-      next question
-    </button>
+    <div class="flex justify-between">
+      <button @click="sendSurveyToStore" class="primary-button shadow-none">
+        Complete the survey
+      </button>
+
+      <button
+        @click="handleNextQuestion"
+        class="capitalize primary-button bg-quaternary shadow-none border hover:scale-110"
+      >
+        next question
+      </button>
+    </div>
   </section>
 </template>
 <script setup lang="ts">
@@ -67,7 +73,7 @@ const activeVal: Ref<string> = ref("");
 const question: Ref<string> = ref("");
 
 const questionStudioStore = useQuestionStudioStore();
-const { addQuestion } = questionStudioStore;
+const { addQuestion, getSurvey } = questionStudioStore;
 const { activeOptionType, questions } = storeToRefs(questionStudioStore);
 const doesNeedAnAnswer = computed(() => {
   return activeOptionType.value == "multiple" ||
@@ -115,6 +121,13 @@ function resetForNewQuesiton() {
   answers.value = [];
   activeIndex.value = 0;
   activeVal.value = "";
+}
+
+function sendSurveyToStore() {
+  let res = confirm("Do you want to complete the survey?");
+  if (res) {
+    sendSurvey(getSurvey());
+  }
 }
 // const isInputFocused = ref(false);
 // function addFocusListener() {

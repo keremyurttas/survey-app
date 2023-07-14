@@ -20,7 +20,9 @@ input[type="radio"] {
 .popup {
   @apply z-10 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-screen h-screen flex items-center justify-center;
 }
-
+.esc-button {
+  @apply absolute right-4 top-4 lg:right-8 lg:top-8 lg:text-xl bg-tertary p-2 text-black rounded-xl;
+}
 @keyframes slideOutUp {
   0% {
     -webkit-transform: translateY(0);
