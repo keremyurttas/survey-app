@@ -74,7 +74,7 @@ const question: Ref<string> = ref("");
 
 const questionStudioStore = useQuestionStudioStore();
 const { addQuestion, getSurvey } = questionStudioStore;
-const { activeOptionType, questions } = storeToRefs(questionStudioStore);
+const { activeOptionType } = storeToRefs(questionStudioStore);
 const doesNeedAnAnswer = computed(() => {
   return activeOptionType.value == "multiple" ||
     activeOptionType.value == "single"
@@ -127,6 +127,7 @@ function sendSurveyToStore() {
   let res = confirm("Do you want to complete the survey?");
   if (res) {
     sendSurvey(getSurvey());
+    useRouter().push("/");
   }
 }
 // const isInputFocused = ref(false);

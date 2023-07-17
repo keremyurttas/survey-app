@@ -4,8 +4,6 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { useGeneralStore } from "~/store/general";
-const generalStore = useGeneralStore();
 
 export const createUser = async (email: string, password: string) => {
   const auth = getAuth();
@@ -55,7 +53,8 @@ export const signOutUser = async () => {
   localStorage.setItem("user-email", "");
 };
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDoc, doc } from "firebase/firestore";
+import { Result } from "types/store";
 import { db } from "~/plugins/firebase.client";
 import { Survey } from "~/types/composables";
 export const sendSurvey = async (survey: Survey) => {
@@ -72,6 +71,33 @@ export const sendSurvey = async (survey: Survey) => {
     console.error("Error adding document: ", e);
   }
 };
+
+export const getSurveyById = async (id: string) => {
+  const docRef = doc(db, "surveys", id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log(docSnap.data());
+  } else {
+    console.log("No such document.");
+  }
+  return docSnap.data();
+};
+
+export const sendResult = async (result: Result) => {
+  try {
+    const docRef = await addDoc(
+      collection(db, "answers", result.surveyOwner, result.surveyId),
+      {
+        result,
+      }
+    );
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
+
 // export const signInUserWGoogle = async () => {
 //   const provider = new GoogleAuthProvider();
 //   const auth = getAuth();
