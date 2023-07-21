@@ -53,7 +53,15 @@ export const signOutUser = async () => {
   localStorage.setItem("user-email", "");
 };
 
-import { collection, addDoc, getDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDoc,
+  doc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { Result } from "types/store";
 import { db } from "~/plugins/firebase.client";
 import { Survey } from "~/types/composables";
@@ -95,6 +103,32 @@ export const sendResult = async (result: Result) => {
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
+  }
+};
+
+// export const getSurveysByEmail = async (email: string) => {
+//   const querySnapshot = doc(db, "surveys", "owners", email);
+//   querySnapshot.forEach((element) => {
+//     console.log((el: any) => el.data());
+//   });
+//   const docSnap = await getDoc(docRef);
+
+//   if (docSnap.exists()) {
+//     console.log("Document data:" + docSnap.data());
+//   } else {
+//     console.log("No such a doc.");
+//   }
+// };
+export const getSurveysByEmail = async (email: string) => {
+  try {
+    const q = query(collection(db, "surveys"), where("owner", "==", email));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      console.log(doc);
+    });
+  } catch (error) {
+    console.error("Error fetching surveys:", error);
   }
 };
 
