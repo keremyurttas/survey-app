@@ -49,8 +49,7 @@ export const initUser = async () => {
 export const signOutUser = async () => {
   const auth = getAuth();
   const result = await auth.signOut();
-  console.log("Sign out:", result);
-  localStorage.setItem("user-email", "");
+  localStorage.removeItem("user-email");
 };
 
 import {
@@ -95,9 +94,9 @@ export const getSurveyById = async (id: string) => {
 export const sendResult = async (result: Result) => {
   try {
     const docRef = await addDoc(
-      collection(db, "answers", result.surveyOwner, result.surveyId),
+      collection(db, "responses", result.surveyOwner, result.surveyId),
       {
-        result,
+        ...result,
       }
     );
     console.log("Document written with ID: ", docRef.id);
@@ -123,13 +122,26 @@ export const getSurveysByEmail = async (email: string) => {
   try {
     const q = query(collection(db, "surveys"), where("owner", "==", email));
     const querySnapshot = await getDocs(q);
-
+    let surveys: Survey[] = [];
     querySnapshot.forEach((doc) => {
-      console.log(doc);
+      surveys.push({ id: doc.id, ...doc.data() } as Survey);
     });
+    console.log(querySnapshot);
+    return surveys;
   } catch (error) {
     console.error("Error fetching surveys:", error);
   }
+};
+
+export const getResponsesById = async (id: string) => {
+  const q = query(
+    collection(db, "responses", localStorage.getItem("user-email"), id)
+  );
+  const querySnapshot = await getDocs(q);
+  const responses = querySnapshot.docs.map((doc) => doc.data());
+  console.log(querySnapshot);
+
+  return responses; // Return the responses array
 };
 
 // export const signInUserWGoogle = async () => {

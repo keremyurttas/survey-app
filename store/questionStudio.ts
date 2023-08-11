@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import { surveyDetails, Question } from "~/types/store";
+import { SurveyDetails, Question } from "~/types/store";
 ////////Survey/////////
-const surveyDetails: Ref<surveyDetails> = ref({ title: "", description: "" });
+const surveyDetails: Ref<SurveyDetails> = ref({ title: "", description: "" });
 
 export const useQuestionStudioStore = defineStore("questionStudio", () => {
   const optionsList = ref(["single", "multiple", "text", "degree", "yes / no"]);

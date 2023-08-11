@@ -22,3 +22,4 @@ export interface Result {
   date: number;
   answers: Answer[];
 }
+

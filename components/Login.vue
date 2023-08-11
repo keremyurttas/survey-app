@@ -1,11 +1,6 @@
 <template>
   <section class="lg:w-1/2 lg:h-2/3 bg-quaternary">
-    <button
-      @click="changeVisibility"
-      class="esc-button"
-    >
-      esc
-    </button>
+    <button @click="changeVisibility" class="esc-button">esc</button>
 
     <div class="flex items-center flex-col gap-12">
       <h3 class="text-4xl capitalize">{{ modes[activeModeIndex] }}</h3>
@@ -30,7 +25,7 @@
 <script setup lang="ts">
 import { useGeneralStore } from "~/store/general";
 const generalStore = useGeneralStore();
-const { changeVisibility, changeLoginStatus } = generalStore;
+const { changeVisibility } = generalStore;
 const errorMessage = ref("");
 
 const modes = ["sign-in", "sign-up"];
@@ -60,7 +55,6 @@ async function handleSubmit() {
 function succesfulLogin() {
   changeVisibility();
   localStorage.setItem("user-email", email.value);
-  changeLoginStatus();
 }
 </script>
 <style scoped>

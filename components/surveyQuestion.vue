@@ -63,6 +63,7 @@
         />
       </div>
     </template>
+
     <button @click="nextQuestion" class="primary-button float-right">
       Next Question
     </button>

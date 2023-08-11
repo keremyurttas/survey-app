@@ -20,18 +20,18 @@
   </nav>
 </template>
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { useGeneralStore } from "~/store/general";
 
 const generalStore = useGeneralStore();
-const { changeVisibility, changeLoginStatus } = generalStore;
-const { loginStatus } = storeToRefs(generalStore);
+const { changeVisibility, loginStatus } = generalStore;
+
+console.log(process.client && localStorage.getItem("user-email") === "");
 function handlePopup() {
-  if (loginStatus.value == "Log-in") {
+  console.log(loginStatus);
+  if (loginStatus == "Log-in") {
     changeVisibility();
   } else {
     signOutUser();
-    changeLoginStatus();
   }
 }
 </script>

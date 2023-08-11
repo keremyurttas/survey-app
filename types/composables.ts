@@ -1,9 +1,10 @@
-import { question } from "./store";
+import { Question } from "./store";
 
 export interface Survey {
   title: string;
   description: string;
   owner: null | string;
   date: number;
-  questions: question[];
+  questions: Question[];
+  id: null | string;
 }
