@@ -26,7 +26,7 @@
 </template>
 <script setup lang="ts">
 import { Survey } from "types/composables";
-import { useFirebaseStore } from "store/firebase";
+import { useFirebaseStore } from "~/store/firebase";
 const firebaseStore = useFirebaseStore();
 const { getSurveysByEmail } = firebaseStore;
 const surveys = ref<Survey[]>();

@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useQuestionStudioStore } from "~/store/questionStudio";
-import { useFirebaseStore } from "store/firebase";
+import { useFirebaseStore } from "~/store/firebase";
 const firebaseStore = useFirebaseStore();
 const { sendSurvey } = firebaseStore;
 

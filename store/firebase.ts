@@ -47,26 +47,18 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
       const errorCode = error.code;
       const errorMessage = error.message;
     });
-
+    window.localStorage.setItem("activeUser", email);
     return credentials;
   }
-  async function initUser() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        return true;
-      } else {
-        return false;
-      }
-    });
-  }
-
-  async function signOutUser() {
-    const auth = getAuth();
-    const result = await auth.signOut();
-    localStorage.removeItem("user-email");
-  }
+  // const initUser = computed(() => {
+  //   const auth = getAuth();
+  //   const user = auth.currentUser;
+  //   if (user) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // });
 
   async function sendSurvey(survey: Survey) {
     try {
@@ -91,11 +83,11 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
       const data = docSnap.data() as DocumentData;
 
       const survey: SurveyDetails = {
-        title: data.title || "", 
+        title: data.title || "",
         description: data.description || "",
         date: data.date || 0,
         owner: data.owner || "",
-        questions: data.questions || [], 
+        questions: data.questions || [],
       };
 
       return survey;
@@ -150,9 +142,7 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
   }
 
   async function getResponsesById(id: string) {
-    const q = query(
-      collection(db, "responses", localStorage.getItem("user-email"), id)
-    );
+    const q = query(collection(db, "responses", activeUser, id));
     const querySnapshot = await getDocs(q);
     const responses = querySnapshot.docs.map((doc) => doc.data());
     console.log(querySnapshot);
@@ -186,15 +176,39 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
   //   return info;
   // };
 
+  const activeUser = ref();
+  function initializeActiveUser() {
+    activeUser.value = localStorage.getItem("activeUser");
+  }
+  function getUserEmail() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    console.log(user);
+    if (user !== null) {
+      activeUser.value = user.email;
+
+      return user.email;
+    }
+  }
+  async function signOutUser() {
+    const auth = getAuth();
+    const result = await auth.signOut();
+    localStorage.removeItem("activeUser");
+    activeUser.value = undefined;
+  }
+
   return {
     createUser,
     signInUser,
-    initUser,
+
     signOutUser,
     sendSurvey,
     getSurveyById,
     sendResult,
     getSurveysByEmail,
     getResponsesById,
+    activeUser,
+    getUserEmail,
+    initializeActiveUser,
   };
 });

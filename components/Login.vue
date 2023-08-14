@@ -28,7 +28,7 @@ const generalStore = useGeneralStore();
 const { changeVisibility } = generalStore;
 import { useFirebaseStore } from "~/store/firebase";
 const firebaseStore = useFirebaseStore();
-const { signInUser, createUser } = firebaseStore;
+const { signInUser, createUser, getUserEmail } = firebaseStore;
 
 const errorMessage = ref("");
 const modes = ["sign-in", "sign-up"];
@@ -58,6 +58,7 @@ async function handleSubmit() {
 function succesfulLogin() {
   changeVisibility();
   localStorage.setItem("user-email", email.value);
+  getUserEmail();
 }
 </script>
 <style scoped>

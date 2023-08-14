@@ -6,9 +6,10 @@
 
     <div class="hidden lg:flex justify-evenly w-full items-center text-xl">
       <button @click="handlePopup()">
-        {{ loginStatus }}
+        {{ handleLoginStatus }}
       </button>
-      <div v-if="loginStatus == 'Log-out'" class="text-primary">
+
+      <div v-if="handleLoginStatus == 'Log-out'" class="text-primary">
         <nuxt-link to="/mySurveys"> My Surveys </nuxt-link>
       </div>
 
@@ -23,17 +24,22 @@
 import { useGeneralStore } from "~/store/general";
 import { useFirebaseStore } from "~/store/firebase";
 const firebaseStore = useFirebaseStore();
-const { signOutUser } = firebaseStore;
+const { signOutUser, initializeActiveUser } = firebaseStore;
 const generalStore = useGeneralStore();
-const { changeVisibility, loginStatus } = generalStore;
-
-console.log(process.client && localStorage.getItem("user-email") === "");
+const { changeVisibility } = generalStore;
+import { storeToRefs } from "pinia";
+const activeUser = storeToRefs(firebaseStore);
+const handleLoginStatus = computed(() => {
+  return activeUser.activeUser.value ? "Log-out" : "Log-in";
+});
+onMounted(() => {
+  initializeActiveUser();
+});
 function handlePopup() {
-  console.log(loginStatus);
-  if (loginStatus == "Log-in") {
-    changeVisibility();
-  } else {
+  if (handleLoginStatus.value == "Log-out") {
     signOutUser();
+  } else {
+    changeVisibility();
   }
 }
 </script>
