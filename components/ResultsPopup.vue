@@ -33,6 +33,9 @@ const emit = defineEmits<{
 }>();
 import { storeToRefs } from "pinia";
 import { useSurveyResults } from "~/store/surveyResults";
+import { useFirebaseStore } from "~/store/firebase";
+const firebaseStore = useFirebaseStore();
+const { getResponsesById, getSurveyById } = firebaseStore;
 
 const { assignResults } = useSurveyResults();
 const { resultsToShow } = storeToRefs(useSurveyResults());
@@ -41,8 +44,6 @@ const isUserOpinionsActive = ref(false);
 const userToShow = ref("");
 function showUserOpinion(user: string) {
   userToShow.value = resultsToShow.value.find((res) => res.user == user);
-  console.log(resultsToShow.value);
-  console.log(userToShow.value);
   isUserOpinionsActive.value = true;
 }
 

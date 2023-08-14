@@ -26,8 +26,11 @@
 import { useGeneralStore } from "~/store/general";
 const generalStore = useGeneralStore();
 const { changeVisibility } = generalStore;
-const errorMessage = ref("");
+import { useFirebaseStore } from "~/store/firebase";
+const firebaseStore = useFirebaseStore();
+const { signInUser, createUser } = firebaseStore;
 
+const errorMessage = ref("");
 const modes = ["sign-in", "sign-up"];
 const activeModeIndex = ref(0);
 function changeMode() {

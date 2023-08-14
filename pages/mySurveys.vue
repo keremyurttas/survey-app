@@ -26,7 +26,10 @@
 </template>
 <script setup lang="ts">
 import { Survey } from "types/composables";
-const surveys = ref<Survey[]>([]);
+import { useFirebaseStore } from "store/firebase";
+const firebaseStore = useFirebaseStore();
+const { getSurveysByEmail } = firebaseStore;
+const surveys = ref<Survey[]>();
 const isPopupVisible = ref(false);
 const surveyIdForResults = ref("");
 

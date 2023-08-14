@@ -21,7 +21,7 @@
     </div>
 
     <div class="flex justify-end">
-      <nuxt-link :to="title.trim() == '' ? null : 'questionStudio'">
+      <nuxt-link :to="title.trim() == '' ? '' : 'questionStudio'">
         <button
           @click="saveTitleAndDescription"
           class="w-min primary-button bg-slate-500 hover:bg-slate-600 hover:shadow-primary_hover"
@@ -33,8 +33,6 @@
   </section>
 </template>
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-
 import { useQuestionStudioStore } from "~/store/questionStudio";
 
 const description = ref("");
@@ -43,7 +41,7 @@ const questionStudio = useQuestionStudioStore();
 const { changeSurveyDetails } = questionStudio;
 
 function saveTitleAndDescription() {
-  if (title.value.trim() == "") {
+  if (title.value.trim() === "") {
     alert("Title is missing");
   } else {
     changeSurveyDetails(title.value, description.value);

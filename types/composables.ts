@@ -6,5 +6,5 @@ export interface Survey {
   owner: null | string;
   date: number;
   questions: Question[];
-  id: null | string;
+  id: string;
 }

@@ -1,11 +1,16 @@
 <template>
   <div class="container">
-    <section v-if="activeIndex === -1 && hasLoaded == true" class="space-y-8">
+    <section
+      v-if="
+        activeIndex === -1 && hasLoaded == true && currentSurvey !== undefined
+      "
+      class="space-y-8"
+    >
       <div class="space-y-4">
         <h2 class="text-4xl">{{ currentSurvey?.title }}</h2>
         <div class="flex justify-between text-secondary">
           <span>{{ currentSurvey?.owner }}</span>
-          <span>{{ new Date(currentSurvey?.date).toLocaleDateString() }}</span>
+          <span>{{ new Date(currentSurvey.date).toLocaleDateString() }}</span>
         </div>
         <h4 class="text-2xl">{{ currentSurvey?.description }}</h4>
       </div>
@@ -47,13 +52,15 @@
 </template>
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-
+import { useFirebaseStore } from "~/store/firebase";
+const firebaseStore = useFirebaseStore();
+const { getSurveyById, sendResult } = firebaseStore;
 import { useDisplaySurvey } from "~/store/displaySurvey";
 import { SurveyDetails, Answer, Result } from "~/types/store";
 const { questions } = storeToRefs(useDisplaySurvey());
 const { assignQuestions } = useDisplaySurvey();
 const activeIndex = ref(-1);
-const currentSurvey: Ref<SurveyDetails | null> = ref(null);
+const currentSurvey = ref<SurveyDetails>();
 const hasLoaded = ref(false);
 const userEmail = ref("");
 const isValidEmail = ref(false);
@@ -65,31 +72,33 @@ function validateEmail() {
 
 const answers: Answer[] = [];
 onMounted(async () => {
-  const survey: SurveyDetails = await getSurveyById(id);
+  const survey: SurveyDetails | undefined = await getSurveyById(id);
   currentSurvey.value = survey;
-  assignQuestions(survey?.questions);
-  hasLoaded.value = true;
+  if (survey?.questions != undefined) {
+    assignQuestions(survey.questions);
+    hasLoaded.value = true;
+  }
 });
 
 const questionDetails = computed(() => {
-  return questions.value[0]
-    ? questions.value[activeIndex.value]
-    : { question: "loading" };
+  return questions.value[activeIndex.value];
 });
-function handleNextQuestion(answer: string) {
+function handleNextQuestion(answer: string | string[]) {
   answers.push({ questionCount: activeIndex.value + 1, userOpinion: answer });
 
-  console.log(answers);
+
   if (activeIndex.value + 1 < questions.value.length) activeIndex.value++;
-  else if (activeIndex.value + 1 == questions.value.length) {
+  else if (
+    activeIndex.value + 1 == questions.value.length &&
+    currentSurvey.value != undefined
+  ) {
     const result: Result = {
-      surveyOwner: currentSurvey.value?.owner,
+      surveyOwner: currentSurvey.value.owner,
       surveyId: id,
       user: userEmail.value,
       date: Date.now(),
       answers: answers,
     };
-    console.log(result);
     sendResult(result);
   }
 }

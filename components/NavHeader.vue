@@ -12,16 +12,18 @@
         <nuxt-link to="/mySurveys"> My Surveys </nuxt-link>
       </div>
 
-      <button @click="addData" class="primary-button bg-tertary text-black">
+      <nuxt-link to="createSurvey" class="primary-button bg-tertary text-black">
         Create a Survey
-      </button>
+      </nuxt-link>
     </div>
     <button class="block lg:hidden">More</button>
   </nav>
 </template>
 <script setup lang="ts">
 import { useGeneralStore } from "~/store/general";
-
+import { useFirebaseStore } from "~/store/firebase";
+const firebaseStore = useFirebaseStore();
+const { signOutUser } = firebaseStore;
 const generalStore = useGeneralStore();
 const { changeVisibility, loginStatus } = generalStore;
 
