@@ -1,19 +1,43 @@
 <template>
-  <section class="popup bg-quaternary container">
+  <section class="popup bg-quaternary container block py-20 px-40">
     <button class="esc-button" @click="emit('close')">ESC</button>
     <user-opinion-popup
       v-if="isUserOpinionsActive"
+      :questions="survey.questions"
       :results="userToShow"
+      @close="isUserOpinionsActive=!isUserOpinionsActive"
     ></user-opinion-popup>
-    <div v-if="survey" class="space-y-2 text-center">
+    <div v-if="survey" class="space-y-2">
       <h2 class="text-4xl">{{ survey.title }}</h2>
       <h4 class="text-xl">{{ survey.description }}</h4>
-      <h3 class="text-2xl">Users</h3>
-      <div class="space-y-4">
-        <div class="" v-for="question in resultsToShow">
-          <button @click="showUserOpinion(question.user)">
-            {{ question.user }}
-          </button>
+      <br />
+      <div class="h-1 bg-tertary"></div>
+
+      <br />
+
+      <div class="flex justify-between">
+        <div class="space-y-4">
+          <h3 class="text-3xl text-center">Users</h3>
+          <div v-for="(result, i) in resultsToShow" :key="result">
+            <button
+              class="text-xl text-start"
+              @click="showUserOpinion(result.user)"
+            >
+              {{ i + 1 }}
+              {{ result.user }}
+            </button>
+          </div>
+        </div>
+        <div class="w-1 bg-tertary"></div>
+        <div class="space-y-4">
+          <h3 class="text-3xl text-center">Questions</h3>
+
+          <div v-for="(question, i) in survey.questions">
+            <button class="text-xl text-start w-full">
+              {{ i + 1 }}
+              {{ question.question }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -34,6 +58,7 @@ const emit = defineEmits<{
 import { storeToRefs } from "pinia";
 import { useSurveyResults } from "~/store/surveyResults";
 import { useFirebaseStore } from "~/store/firebase";
+import { Result } from "types/store";
 const firebaseStore = useFirebaseStore();
 const { getResponsesById, getSurveyById } = firebaseStore;
 
@@ -43,7 +68,9 @@ const survey = ref();
 const isUserOpinionsActive = ref(false);
 const userToShow = ref("");
 function showUserOpinion(user: string) {
-  userToShow.value = resultsToShow.value.find((res) => res.user == user);
+  userToShow.value = resultsToShow.value.find(
+    (res: Result) => res.user == user
+  );
   isUserOpinionsActive.value = true;
 }
 
@@ -51,5 +78,6 @@ onMounted(async () => {
   let results = await getResponsesById(props.surveyId);
   assignResults(results);
   survey.value = await getSurveyById(props.surveyId);
+  console.log(survey.value);
 });
 </script>

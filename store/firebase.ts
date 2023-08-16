@@ -142,7 +142,7 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
   }
 
   async function getResponsesById(id: string) {
-    const q = query(collection(db, "responses", activeUser, id));
+    const q = query(collection(db, "responses", activeUser.value, id));
     const querySnapshot = await getDocs(q);
     const responses = querySnapshot.docs.map((doc) => doc.data());
     console.log(querySnapshot);
