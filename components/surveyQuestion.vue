@@ -1,16 +1,17 @@
 <template>
-  <div class="space-y-4">
-    <h2 class="text-2xl">{{ questionDetails.question }}</h2>
+  <div v-if="questionDetails" class="space-y-4">
+    <h2 class="text-2xl break-words">{{ questionDetails.question }}</h2>
     <template
       v-if="
         questionDetails.type === 'multiple' || questionDetails.type === 'single'
       "
     >
+      <hr />
       <div
-        class="flex items-center justify-between p-4"
+        class="flex items-center md:justify-between py-4 gap-4"
         v-for="(option, i) in questionDetails.answers"
       >
-        <label class="text-lg" :for="'option' + i">{{
+        <label class="lg:text-lg break-all" :for="'option' + i">{{
           i + 1 + ") " + option
         }}</label>
         <input

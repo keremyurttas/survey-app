@@ -4,20 +4,32 @@
       v-if="isPopupVisible"
       @close="closePopup"
       :survey-id="surveyIdForResults"
-      class=""
     ></results-popup>
     <ul v-for="(survey, i) in surveys" :key="i" class="">
       <li
         @click="showSurveyResults(survey.id)"
-        class="flex justify-between items-center overflow-auto"
+        class="md:flex justify-between items-center cursor-pointer break-all"
       >
         <div class="mb-4">
-          <h2 class="text-4xl">{{ survey.title }}</h2>
-          <h5 class="">{{ survey.description }}</h5>
+          <h2 class="text-4xl mr-4">{{ survey.title }}</h2>
+          <div>
+            <h5 class="">{{ survey.description }}</h5>
+          </div>
         </div>
 
-        <div>
-          <span>{{ new Date(survey.date).toLocaleString() }}</span>
+        <div class="flex gap-4 justify-between">
+          <button
+            @click.stop="copyTheSurveyUrl(survey.id)"
+            type="button"
+            class="text-white bg-blue-700 w-max hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm py-1 px-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Get the survey URL
+          </button>
+          <div>
+            <span class="inline-block w-max">{{
+              formatTheDate(survey.date)
+            }}</span>
+          </div>
         </div>
       </li>
       <hr class="bg-primary h-2 w-full" />
@@ -45,5 +57,20 @@ function showSurveyResults(id: string) {
 }
 function closePopup() {
   isPopupVisible.value = false;
+}
+function formatTheDate(surveyDate: number) {
+  const date = new Date(surveyDate);
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
+
+function copyTheSurveyUrl(text: string) {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      console.log("Text copied to clipboard");
+    })
+    .catch((error) => {
+      console.error("Failed to copy text: ", error);
+    });
 }
 </script>

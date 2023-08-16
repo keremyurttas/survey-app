@@ -1,21 +1,18 @@
 <template>
-  <section class="popup bg-quaternary container block py-20 px-40">
-    <button class="esc-button" @click="emit('close')">ESC</button>
+  <my-popup @close="$emit('close')">
+    <!-- <button class="esc-button" @click="emit('close')">ESC</button> -->
     <user-opinion-popup
       v-if="isUserOpinionsActive"
       :questions="survey.questions"
       :results="userToShow"
-      @close="isUserOpinionsActive=!isUserOpinionsActive"
+      @close="isUserOpinionsActive = !isUserOpinionsActive"
     ></user-opinion-popup>
-    <div v-if="survey" class="space-y-2">
-      <h2 class="text-4xl">{{ survey.title }}</h2>
-      <h4 class="text-xl">{{ survey.description }}</h4>
-      <br />
-      <div class="h-1 bg-tertary"></div>
+    <template #header>
+      <h2 v-if="survey">{{ survey.title }}</h2>
+    </template>
 
-      <br />
-
-      <div class="flex justify-between">
+    <div class="py-10">
+      <div v-if="survey" class="text-center">
         <div class="space-y-4">
           <h3 class="text-3xl text-center">Users</h3>
           <div v-for="(result, i) in resultsToShow" :key="result">
@@ -28,7 +25,7 @@
             </button>
           </div>
         </div>
-        <div class="w-1 bg-tertary"></div>
+        <!-- <div class="w-1 bg-tertary"></div>
         <div class="space-y-4">
           <h3 class="text-3xl text-center">Questions</h3>
 
@@ -38,7 +35,7 @@
               {{ question.question }}
             </button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -46,7 +43,7 @@
 
     <!-- <h2>{{ survey }}</h2>
     <h4>{{ survey.description }}</h4> -->
-  </section>
+  </my-popup>
 </template>
 <script setup lang="ts">
 const props = defineProps<{

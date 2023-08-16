@@ -7,12 +7,12 @@
       class="space-y-8"
     >
       <div class="space-y-4">
-        <h2 class="text-4xl">{{ currentSurvey?.title }}</h2>
+        <h2 class="text-4xl truncate">{{ currentSurvey?.title }}</h2>
         <div class="flex justify-between text-secondary">
-          <span>{{ currentSurvey?.owner }}</span>
+          <span>Created by: {{ currentSurvey?.owner }}</span>
           <span>{{ new Date(currentSurvey.date).toLocaleDateString() }}</span>
         </div>
-        <h4 class="text-2xl">{{ currentSurvey?.description }}</h4>
+        <p class="text-2xl break-words">{{ currentSurvey?.description }}</p>
       </div>
 
       <div class="space-y-2">
@@ -86,7 +86,6 @@ const questionDetails = computed(() => {
 function handleNextQuestion(answer: string | string[]) {
   answers.push({ questionCount: activeIndex.value + 1, userOpinion: answer });
 
-
   if (activeIndex.value + 1 < questions.value.length) activeIndex.value++;
   else if (
     activeIndex.value + 1 == questions.value.length &&
@@ -100,6 +99,8 @@ function handleNextQuestion(answer: string | string[]) {
       answers: answers,
     };
     sendResult(result);
+    alert("You have completed all questions.");
+    useRouter().push("/");
   }
 }
 </script>

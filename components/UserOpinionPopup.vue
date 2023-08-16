@@ -1,16 +1,14 @@
 <template>
-  <div
-    class="popup bg-secondary container h-min p-16 flex-col gap-4 items-start bg-opacity-50"
-  >
-    <button class="esc-button" @click="emit('close')">ESC</button>
-    <h4 class="text-3xl">{{ results.user }}</h4>
-    <div class="h-1 w-full bg-tertary"></div>
+  <my-popup @close="$emit('close')">
+    <template #header>{{ results.user }}</template>
 
-    <div v-for="(question, i) in questions">
-      <h4 class="text-xl">{{ question.question }}</h4>
-      <span>{{ results.answers[i].userOpinion }}</span>
+    <div class="pt-8">
+      <div class="mb-8" v-for="(question, i) in questions">
+        <h4 class="text-xl">{{ question.question }}</h4>
+        <span class="opacity-60">{{ results.answers[i].userOpinion }}</span>
+      </div>
     </div>
-  </div>
+  </my-popup>
 </template>
 <script setup lang="ts">
 const props = defineProps<{
