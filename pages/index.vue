@@ -6,11 +6,12 @@
       Create your first survey
     </p>
     <nuxt-link to="createSurvey">
-      <button
-        class="primary-button rounded-full aspect-square p-10 font-extrabold shadow-secondary hover:shadow-secondary_hover hover:bg-secondary_hover"
+      <div
+        aria-hidden="true"
+        class="primary-button rounded-full flex items-center aspect-square p-10 font-extrabold shadow-secondary hover:shadow-secondary_hover hover:bg-secondary_hover"
       >
         START
-      </button></nuxt-link
+      </div></nuxt-link
     >
   </section>
 </template>

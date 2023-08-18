@@ -1,32 +1,27 @@
 <template>
-  <section class="popup flex justify-center items-center">
-    <div
-      class="z-50 flex items-center flex-col gap-20 lg:p-20 py-12 px-4 bg-quaternary rounded-lg w-2/3 h-2/3 relative"
-    >
-      <button
-        class="esc-button"
-        @click="emit('close')"
-      >
-        esc
-      </button>
-      <h2 class="text-2xl font-semibold">Questions</h2>
-
-      <div class="space-y-4 overflow-auto w-full">
-        <div
-          class="text-2xl"
-          v-if="questions.length > 0"
-          v-for="question in questions"
-        >
-          <p class="truncate">{{ question.question }}</p>
-          <hr />
-          <span class="text-xl"
-            ><strong>Type:</strong> {{ question.type }}</span
+  <my-popup @close="$emit('close')">
+    <template #header>
+      <h2>Questions</h2>
+    </template>
+    <section class="py-16">
+      <div class="z-50 flex items-center flex-col gap-20 rounded-lg relative">
+        <div class="space-y-4 overflow-auto w-full">
+          <div
+            class="text-2xl"
+            v-if="questions.length > 0"
+            v-for="question in questions"
           >
+            <p class="truncate">{{ question.question }}</p>
+            <hr />
+            <span class="text-xl"
+              ><strong>Type:</strong> {{ question.type }}</span
+            >
+          </div>
+          <span v-else>You have not added any questions yet.</span>
         </div>
-        <span v-else>You have not added any questions yet.</span>
       </div>
-    </div>
-  </section>
+    </section>
+  </my-popup>
 </template>
 <script setup lang="ts">
 const emit = defineEmits<{

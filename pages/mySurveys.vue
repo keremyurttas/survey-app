@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section v-if="surveys && surveys?.length > 0" class="container">
     <results-popup
       v-if="isPopupVisible"
       @close="closePopup"
@@ -35,6 +35,9 @@
       <hr class="bg-primary h-2 w-full" />
     </ul>
   </section>
+  <section class="text-center py-60" v-else>
+    <span class="md:text-3xl">You haven't created any survey yet! </span>
+  </section>
 </template>
 <script setup lang="ts">
 import { Survey } from "types/composables";
@@ -50,6 +53,7 @@ onMounted(async () => {
   if (userEmail) {
     surveys.value = await getSurveysByEmail(userEmail);
   }
+  console.log(surveys.value);
 });
 function showSurveyResults(id: string) {
   surveyIdForResults.value = id;

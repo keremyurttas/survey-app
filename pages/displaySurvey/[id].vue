@@ -38,16 +38,19 @@
       >
         Start
       </button>
+      <div class="p-4 lg:p-0">
+        <span class="mb-4"
+          >Question {{ activeIndex + 1 + "/ " + questions.length }}</span
+        >
+        <survey-question
+          @answer-details="handleNextQuestion"
+          :question-details="questionDetails"
+        ></survey-question>
+      </div>
     </section>
-    <div class="p-4 lg:p-0" v-else>
-      <span class="mb-4"
-        >Question {{ activeIndex + 1 + "/ " + questions.length }}</span
-      >
-      <survey-question
-        @answer-details="handleNextQuestion"
-        :question-details="questionDetails"
-      ></survey-question>
-    </div>
+    <section class="text-center py-60" v-else>
+      <span class="md:text-3xl">There is no Survey with the id: {{ id }} </span>
+    </section>
   </div>
 </template>
 <script setup lang="ts">

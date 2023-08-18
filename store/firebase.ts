@@ -20,8 +20,11 @@ import { Result, SurveyDetails } from "types/store";
 import { db } from "~/plugins/firebase.client";
 import { Survey } from "~/types/composables";
 
+const isLoading = ref(false);
+
 export const useFirebaseStore = defineStore("firebaseStore", () => {
   async function createUser(email: string, password: string) {
+    isLoading.value = true;
     const auth = getAuth();
     const credentials = await createUserWithEmailAndPassword(
       auth,
@@ -33,21 +36,23 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
       // ..
     });
     console.log(credentials);
+    isLoading.value = false;
     return credentials;
   }
   async function signInUser(email: string, password: string) {
-    let isThereError = false;
+    isLoading.value = true;
+
     const auth = getAuth();
     const credentials = await signInWithEmailAndPassword(
       auth,
       email,
       password
     ).catch((error) => {
-      isThereError = true;
       const errorCode = error.code;
       const errorMessage = error.message;
     });
     window.localStorage.setItem("activeUser", email);
+    isLoading.value = false;
     return credentials;
   }
   // const initUser = computed(() => {
@@ -61,6 +66,7 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
   // });
 
   async function sendSurvey(survey: Survey) {
+    isLoading.value = true;
     try {
       const docRef = await addDoc(collection(db, "surveys"), {
         title: survey.title,
@@ -70,12 +76,14 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
         questions: survey.questions,
       });
       console.log("Document written with ID: ", docRef.id);
+      isLoading.value = false;
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
 
   async function getSurveyById(id: string): Promise<SurveyDetails | undefined> {
+    isLoading.value = true;
     const docRef = doc(db, "surveys", id);
     const docSnap = await getDoc(docRef);
 
@@ -89,15 +97,17 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
         owner: data.owner || "",
         questions: data.questions || [],
       };
-
+      isLoading.value = false;
       return survey;
     } else {
       console.log("No such document.");
+      isLoading.value = false;
       return undefined;
     }
   }
 
   async function sendResult(result: Result) {
+    isLoading.value = true;
     try {
       const docRef = await addDoc(
         collection(db, "responses", result.surveyOwner, result.surveyId),
@@ -109,6 +119,7 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+    isLoading.value = false;
   }
 
   // export const getSurveysByEmail(email: string) => {
@@ -127,6 +138,7 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
   async function getSurveysByEmail(
     email: string
   ): Promise<Survey[] | undefined> {
+    isLoading.value = true;
     try {
       const q = query(collection(db, "surveys"), where("owner", "==", email));
       const querySnapshot = await getDocs(q);
@@ -135,6 +147,7 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
         surveys.push({ id: doc.id, ...doc.data() } as Survey);
       });
       console.log(querySnapshot);
+      isLoading.value = false;
       return surveys;
     } catch (error) {
       console.error("Error fetching surveys:", error);
@@ -142,11 +155,12 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
   }
 
   async function getResponsesById(id: string) {
+    isLoading.value = true;
     const q = query(collection(db, "responses", activeUser.value, id));
     const querySnapshot = await getDocs(q);
     const responses = querySnapshot.docs.map((doc) => doc.data());
     console.log(querySnapshot);
-
+    isLoading.value = false;
     return responses; // Return the responses array
   }
 
@@ -191,10 +205,12 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
     }
   }
   async function signOutUser() {
+    isLoading.value = true;
     const auth = getAuth();
     const result = await auth.signOut();
     localStorage.removeItem("activeUser");
     activeUser.value = undefined;
+    isLoading.value = false;
   }
 
   return {
@@ -210,5 +226,6 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
     activeUser,
     getUserEmail,
     initializeActiveUser,
+    isLoading,
   };
 });

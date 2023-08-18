@@ -38,7 +38,7 @@ export const useQuestionStudioStore = defineStore("questionStudio", () => {
     return {
       title: surveyDetails.value.title,
       description: surveyDetails.value.description,
-      owner: localStorage.getItem("user-email"),
+      owner: localStorage.getItem("activeUser"),
       date: Date.now(),
       questions: questions.value,
       id: "",

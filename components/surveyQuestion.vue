@@ -1,11 +1,7 @@
 <template>
   <div v-if="questionDetails" class="space-y-4">
     <h2 class="text-2xl break-words">{{ questionDetails.question }}</h2>
-    <template
-      v-if="
-        questionDetails.type === 'multiple' || questionDetails.type === 'single'
-      "
-    >
+    <template v-if="questionDetails.type === 'single'">
       <hr />
       <div
         class="flex items-center md:justify-between py-4 gap-4"
@@ -16,8 +12,28 @@
         }}</label>
         <input
           :id="'option' + i"
-          :type="inputType"
-          name="answer"
+          type="radio"
+          :name="'answer' + i"
+          :key="i"
+          v-model="userAnswer"
+          class="w-min"
+          :value="option"
+        />
+      </div>
+    </template>
+    <template v-if="questionDetails.type === 'multiple'">
+      <hr />
+      <div
+        class="flex items-center md:justify-between py-4 gap-4"
+        v-for="(option, i) in questionDetails.answers"
+      >
+        <label class="lg:text-lg break-all" :for="'option' + i">{{
+          i + 1 + ") " + option
+        }}</label>
+        <input
+          :id="'option' + i"
+          type="checkbox"
+          :name="'answer' + i"
           :key="i"
           v-model="userAnswer"
           class="w-min"
@@ -79,10 +95,6 @@ const emits = defineEmits<{
   (e: "answerDetails", value: string | string[]): void;
 }>();
 
-const inputType = computed(() => {
-  return props.questionDetails.type === "single" ? "radio" : "checkbox";
-});
-
 const userAnswer = ref([]);
 const rangeValue = ref(50);
 function updateRangeValue(event: Event) {
@@ -90,6 +102,7 @@ function updateRangeValue(event: Event) {
   rangeValue.value = parseInt(myEl.value);
 }
 function nextQuestion() {
+  console.log(userAnswer);
   props.questionDetails.type === "degree"
     ? emits("answerDetails", rangeValue.value.toString())
     : userAnswer.value.length > 0
