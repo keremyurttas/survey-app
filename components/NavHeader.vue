@@ -44,7 +44,7 @@
         </nuxt-link>
       </div>
       <div
-        class="w-auto hidden float-none md:relative md:bg-none md:flex items-center flex-row space-x-16 mt-0 border-0 text-xl space-y-4 space-y-0"
+        class="w-auto hidden float-none md:relative md:bg-none md:flex items-center flex-row space-x-16 mt-0 border-0 text-xl"
       >
         <button @click="handlePopup()">
           {{ handleLoginStatus }}
