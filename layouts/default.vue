@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <loading-modal v-if="isLoading"> </loading-modal>
-    <login class="popup" v-if="isLoginPopupVisible"></login>
+    <login v-if="isLoginPopupVisible"></login>
     <nav-header></nav-header>
     <slot></slot>
   </div>
@@ -14,6 +14,10 @@ const generalStore = useGeneralStore();
 import { useFirebaseStore } from "~/store/firebase";
 const firebaseStore = useFirebaseStore();
 const { isLoading } = storeToRefs(firebaseStore);
+const { activeUser } = storeToRefs(useFirebaseStore());
 
 const { isLoginPopupVisible } = storeToRefs(generalStore);
+onBeforeMount(() => {
+  console.log(activeUser);
+});
 </script>

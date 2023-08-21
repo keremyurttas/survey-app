@@ -1,26 +1,42 @@
 <template>
-  <section class="lg:w-1/2 lg:h-2/3 bg-quaternary">
-    <button @click="changeVisibility" class="esc-button">esc</button>
-
-    <div class="flex items-center flex-col gap-12">
-      <h3 class="text-4xl capitalize">{{ modes[activeModeIndex] }}</h3>
-      <span class="text-red-500" v-if="errorMessage.trim() !== ''">{{
+  <my-popup @close="changeVisibility()" :footer="false">
+    <template #header>
+      {{ modes[activeModeIndex] }}
+    </template>
+    <div class="flex items-center flex-col py-4">
+      <span class="text-red-500 mb-4" v-if="errorMessage.trim() !== ''">{{
         errorMessage
       }}</span>
-      <div class="text-2xl flex flex-col gap-4">
+      <form onsubmit="return false" class="text-2xl flex flex-col gap-4">
         <label class="" for="mail">Email</label>
-        <input v-model="email" class="" id="mail" type="text" />
+        <input
+          autocomplete="email"
+          v-model="email"
+          class="px-2 py-1 rounded-md"
+          id="mail"
+          type="text"
+        />
         <label for="password">Password</label>
-        <input v-model="password" class="" type="password" id="password" />
-      </div>
-      <div class="flex flex-col gap-2">
-        <button @click="handleSubmit" class="primary-button">Next</button>
-        <button @click="changeMode">
-          {{ activeModeIndex == 0 ? "Sign-up" : "Sign-in" }}
-        </button>
-      </div>
-    </div>
-  </section>
+        <input
+          autocomplete="current-password"
+          v-model="password"
+          class="px-2 py-1 rounded-md mb-4"
+          type="password"
+          id="password"
+        />
+
+        <div class="flex flex-col gap-2 items-center">
+          <button @click="handleSubmit()" class="primary-button w-max">
+            Next
+          </button>
+
+          <button @click="changeMode">
+            {{ activeModeIndex == 0 ? "Sign-up" : "Sign-in" }}
+          </button>
+        </div>
+      </form>
+    </div></my-popup
+  >
 </template>
 <script setup lang="ts">
 import { useGeneralStore } from "~/store/general";
@@ -44,20 +60,22 @@ const password = ref("");
 
 async function handleSubmit() {
   //check for active mode
-  modes[activeModeIndex.value] === "sign-in"
-    ? //check for is user signed in succesfuly.
-      (await signInUser(email.value, password.value))
+  if (email.value.trim() !== "" && password.value.trim() !== "") {
+    console.log(await signInUser(email.value, password.value));
+    modes[activeModeIndex.value] === "sign-in"
+      ? //check for is user signed in succesfuly.
+        (await signInUser(email.value, password.value)) !== undefined
+        ? succesfulLogin()
+        : (errorMessage.value = "Check your informations")
+      : //check for is user signed up succesfuly.
+      (await createUser(email.value, password.value))
       ? succesfulLogin()
-      : (errorMessage.value = "Check your informations")
-    : //check for is user signed up succesfuly.
-    (await createUser(email.value, password.value))
-    ? succesfulLogin()
-    : (errorMessage.value = "Check your e-mail address");
+      : (errorMessage.value = "Check your e-mail address");
+  }
 }
 
 function succesfulLogin() {
   changeVisibility();
-  localStorage.setItem("user-email", email.value);
   getUserEmail();
 }
 </script>

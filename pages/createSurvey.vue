@@ -33,6 +33,9 @@
   </section>
 </template>
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"],
+});
 import { useQuestionStudioStore } from "~/store/questionStudio";
 
 const description = ref("");

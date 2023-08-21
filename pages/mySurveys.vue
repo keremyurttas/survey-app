@@ -40,18 +40,20 @@
   </section>
 </template>
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"],
+});
 import { Survey } from "types/composables";
 import { useFirebaseStore } from "~/store/firebase";
 const firebaseStore = useFirebaseStore();
-const { getSurveysByEmail } = firebaseStore;
+const { getSurveysByEmail, activeUser } = firebaseStore;
 const surveys = ref<Survey[]>();
 const isPopupVisible = ref(false);
 const surveyIdForResults = ref("");
 
 onMounted(async () => {
-  const userEmail = localStorage.getItem("user-email");
-  if (userEmail) {
-    surveys.value = await getSurveysByEmail(userEmail);
+  if (activeUser) {
+    surveys.value = await getSurveysByEmail(activeUser);
   }
   console.log(surveys.value);
 });

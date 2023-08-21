@@ -10,7 +10,9 @@
         <div
           class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
         >
-          <h3 class="text-3xl font-semibold text-gray-900 dark:text-white break-all">
+          <h3
+            class="text-3xl font-semibold text-gray-900 dark:text-white break-all capitalize"
+          >
             <slot name="header"></slot>
           </h3>
           <button
@@ -44,6 +46,7 @@
 
         <!-- Modal footer -->
         <div
+          v-if="footer"
           class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
         >
           <button
@@ -63,4 +66,7 @@
 const emit = defineEmits<{
   close: any;
 }>();
+const props = defineProps({
+  footer: Boolean, // Prop type remains Boolean
+});
 </script>

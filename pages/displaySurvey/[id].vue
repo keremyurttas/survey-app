@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <section
-      v-if="
-        activeIndex === -1 && hasLoaded == true && currentSurvey !== undefined
-      "
+      v-if="currentSurvey !== undefined && activeIndex == -1"
       class="space-y-8"
     >
       <div class="space-y-4">
@@ -15,29 +13,34 @@
         <p class="text-2xl break-words">{{ currentSurvey?.description }}</p>
       </div>
 
-      <div class="space-y-2">
-        <h4 class="text-xl">Your email adress:</h4>
-        <input
-          placeholder="Enter email"
-          @blur="validateEmail"
-          v-model="userEmail"
-          type="text"
-          class="bg-quaternary p-2"
-        />
-        <span class="text-red-500" v-if="!isValidEmail"
-          >Please type a correct email adress.</span
+      <form onsubmit="return false" class="space-y-6">
+        <div class="space-y-2">
+          <h4 class="text-xl">Your email adress:</h4>
+          <input
+            placeholder="Enter email"
+            @blur="validateEmail"
+            v-model="userEmail"
+            type="text"
+            class="bg-quaternary p-2"
+          />
+          <span class="text-red-500" v-if="!isValidEmail"
+            >Please type a correct email adress.</span
+          >
+        </div>
+
+        <button
+          @click="
+            {
+              isValidEmail ? activeIndex++ : undefined;
+            }
+          "
+          class="text-2xl primary-button rounded-lg shadow-primary hover:shadow-secondary_hover hover:bg- secondary_hover"
         >
-      </div>
-      <button
-        @click="
-          {
-            isValidEmail ? activeIndex++ : undefined;
-          }
-        "
-        class="text-2xl primary-button rounded-lg shadow-primary hover:shadow-secondary_hover hover:bg- secondary_hover"
-      >
-        Start
-      </button>
+          Start
+        </button>
+      </form>
+    </section>
+    <section v-else-if="currentSurvey !== undefined && activeIndex !== -1">
       <div class="p-4 lg:p-0">
         <span class="mb-4"
           >Question {{ activeIndex + 1 + "/ " + questions.length }}</span
@@ -64,7 +67,7 @@ const { questions } = storeToRefs(useDisplaySurvey());
 const { assignQuestions } = useDisplaySurvey();
 const activeIndex = ref(-1);
 const currentSurvey = ref<SurveyDetails>();
-const hasLoaded = ref(false);
+
 const userEmail = ref("");
 const isValidEmail = ref(false);
 const id: any = useRoute().params.id;
@@ -79,7 +82,6 @@ onMounted(async () => {
   currentSurvey.value = survey;
   if (survey?.questions != undefined) {
     assignQuestions(survey.questions);
-    hasLoaded.value = true;
   }
 });
 

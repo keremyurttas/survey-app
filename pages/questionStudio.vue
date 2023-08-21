@@ -24,6 +24,9 @@
   </section>
 </template>
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"],
+});
 import { storeToRefs } from "pinia";
 import { useQuestionStudioStore } from "~/store/questionStudio";
 const questionStudio = useQuestionStudioStore();

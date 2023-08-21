@@ -41,19 +41,26 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
   }
   async function signInUser(email: string, password: string) {
     isLoading.value = true;
-
     const auth = getAuth();
-    const credentials = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    ).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
-    window.localStorage.setItem("activeUser", email);
-    isLoading.value = false;
-    return credentials;
+    try {
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      window.localStorage.setItem("activeUser", email);
+      initializeActiveUser();
+      isLoading.value = false;
+      return credentials;
+    } catch (error: unknown) {
+      if (error) {
+        console.log(error.message);
+        // You can handle the specific authentication error here
+      } else {
+        // Handle other types of errors
+      }
+      isLoading.value = false;
+    }
   }
   // const initUser = computed(() => {
   //   const auth = getAuth();
@@ -192,7 +199,9 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
 
   const activeUser = ref();
   function initializeActiveUser() {
-    activeUser.value = localStorage.getItem("activeUser");
+    if (process.client) {
+      activeUser.value = localStorage.getItem("activeUser");
+    }
   }
   function getUserEmail() {
     const auth = getAuth();
@@ -210,6 +219,10 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
     const result = await auth.signOut();
     localStorage.removeItem("activeUser");
     activeUser.value = undefined;
+    initializeActiveUser();
+    useRouter().push({
+      path: "/",
+    });
     isLoading.value = false;
   }
 
