@@ -6,19 +6,17 @@
     class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center backdrop-blur-sm"
   >
     <div class="relative w-full max-w-2xl max-h-full">
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 px-2">
+      <div class="relative rounded-lg shadow bg-gray-700 px-2">
         <div
-          class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+          class="flex items-start justify-between p-4 border-b rounded-t border-gray-600"
         >
-          <h3
-            class="text-3xl font-semibold text-gray-900 dark:text-white break-all capitalize"
-          >
+          <h3 class="text-3xl font-semibold text-white break-all capitalize">
             <slot name="header"></slot>
           </h3>
           <button
             @click="emit('close')"
             type="button"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 p-2 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            class="text-gray-400 bg-transparent p-2 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center hover:bg-gray-600"
             data-modal-hide="defaultModal"
           >
             <svg
@@ -47,13 +45,13 @@
         <!-- Modal footer -->
         <div
           v-if="footer"
-          class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
+          class="flex items-center p-6 space-x-2 border-t rounded-b border-gray-600"
         >
           <button
             @click="emit('close')"
             data-modal-hide="defaultModal"
             type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
           >
             Done
           </button>
