@@ -18,6 +18,7 @@ const { activeUser } = storeToRefs(useFirebaseStore());
 
 const { isLoginPopupVisible } = storeToRefs(generalStore);
 onBeforeMount(() => {
-  console.log(activeUser);
+  const config = useRuntimeConfig();
+  console.log(config.public.FIREBASE_API_KEY);
 });
 </script>
