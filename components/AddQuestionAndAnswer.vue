@@ -62,7 +62,7 @@
 
         <button
           @click="handleAddAnswer"
-          class="primary-button w-min float-right"
+          class="primary-button md:w-min text-2xl md:text-base float-right"
         >
           +
         </button>

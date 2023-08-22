@@ -26,6 +26,7 @@
       </button>
       <div
         v-if="isMobileNavBarActive"
+        @click="isMobileNavBarActive = false"
         class="float-right absolute md:hidden right-4 top-16 z-30 bg-none bg-quaternary flex flex-col items-center p-4 mt-4 border rounded-lg text-xl space-y-4"
       >
         <button @click="handlePopup()">

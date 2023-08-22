@@ -3,7 +3,7 @@
     <h2 class="text-center text-3xl text-gray-300">
       {{ surveyDetails.title }}
     </h2>
-    <div class="text-2xl flex justify-between mb-10">
+    <div class="text-2xl flex justify-between md:mb-10">
       <div>
         <span>Question </span>
         <total-questions class="inline"></total-questions>

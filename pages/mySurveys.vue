@@ -70,8 +70,9 @@ function formatTheDate(surveyDate: number) {
 }
 
 function copyTheSurveyUrl(text: string) {
+  const domain = window.location.origin;
   navigator.clipboard
-    .writeText(text)
+    .writeText(domain + "/displaySurvey/" + text)
     .then(() => {
       console.log("Text copied to clipboard");
     })

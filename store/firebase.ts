@@ -25,19 +25,26 @@ const isLoading = ref(false);
 export const useFirebaseStore = defineStore("firebaseStore", () => {
   async function createUser(email: string, password: string) {
     isLoading.value = true;
-    const auth = getAuth();
-    const credentials = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    ).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
-    console.log(credentials);
-    isLoading.value = false;
-    return credentials;
+
+    try {
+      const auth = getAuth();
+      const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // Successful user creation
+      window.localStorage.setItem("activeUser", email);
+
+      isLoading.value = false;
+      return credentials;
+    } catch (error) {
+      // Handle error
+      console.error("Error creating user:", error);
+      isLoading.value = false;
+      return null; // Return null or customize your error handling
+    }
   }
   async function signInUser(email: string, password: string) {
     isLoading.value = true;
@@ -54,7 +61,7 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
       return credentials;
     } catch (error: unknown) {
       if (error) {
-        console.log(error.message);
+        console.log(error);
         // You can handle the specific authentication error here
       } else {
         // Handle other types of errors
