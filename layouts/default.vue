@@ -16,8 +16,4 @@ const firebaseStore = useFirebaseStore();
 const { isLoading } = storeToRefs(firebaseStore);
 
 const { isLoginPopupVisible } = storeToRefs(generalStore);
-onBeforeMount(() => {
-  const config = useRuntimeConfig();
-  console.log(config.public.FIREBASE_API_KEY);
-});
 </script>

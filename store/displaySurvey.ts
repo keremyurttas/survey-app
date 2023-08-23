@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Question } from "types/store";
+import { Question } from "interfaces/general";
 export const useDisplaySurvey = defineStore("displaySurvey", () => {
   const questions: Ref<Question[]> = ref([]);
   function assignQuestions(allQuestions: Question[]) {

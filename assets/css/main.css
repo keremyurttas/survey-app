@@ -23,6 +23,20 @@ input[type="radio"] {
 .esc-button {
   @apply absolute right-4 top-4 lg:right-8 lg:top-8 lg:text-xl bg-tertary p-2 text-black rounded-xl;
 }
+
+.slideOutDown {
+  -webkit-animation-name: slideOutDown;
+  animation-name: slideOutDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  transition: 0.3s ease;
+}
+.myGroup:hover .slideOutDown {
+  -webkit-animation-name: slideOutUp;
+  animation-name: slideOutUp;
+}
 @keyframes slideOutUp {
   0% {
     -webkit-transform: translateY(0);
@@ -48,18 +62,5 @@ input[type="radio"] {
     transform: translateY(-200%);
     opacity: 0;
   }
-}
-.slideOutDown {
-  -webkit-animation-name: slideOutDown;
-  animation-name: slideOutDown;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  transition: 0.3s ease;
-}
-.myGroup:hover .slideOutDown {
-  -webkit-animation-name: slideOutUp;
-  animation-name: slideOutUp;
 }
 @tailwind utilities;

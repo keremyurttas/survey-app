@@ -17,7 +17,9 @@
         <div v-if="survey" class="text-center">
           <div class="space-y-4">
             <h3 class="text-3xl text-center">
-              {{ resultsToShow.length > 0 ? "Attendees" : "No results to show :(" }}
+              {{
+                resultsToShow.length > 0 ? "Attendees" : "No results to show :("
+              }}
             </h3>
             <div v-for="(result, i) in resultsToShow" :key="result">
               <div class="text-xl flex items-center justify-between px-20">
@@ -66,7 +68,7 @@ const emit = defineEmits<{
 import { storeToRefs } from "pinia";
 import { useSurveyResults } from "~/store/surveyResults";
 import { useFirebaseStore } from "~/store/firebase";
-import { Result } from "types/store";
+import { Result } from "interfaces/general";
 
 const firebaseStore = useFirebaseStore();
 const { getResponsesById, getSurveyById } = firebaseStore;
@@ -77,6 +79,8 @@ const { isLoading } = storeToRefs(firebaseStore);
 const survey = ref();
 const isUserOpinionsActive = ref(false);
 const userToShow = ref("");
+
+
 function showUserOpinion(user: string) {
   userToShow.value = resultsToShow.value.find(
     (res: Result) => res.user == user
@@ -85,10 +89,9 @@ function showUserOpinion(user: string) {
 }
 
 onMounted(async () => {
-  let results = await getResponsesById(props.surveyId);
-  console.log(results);
+  let results: Result[] = await getResponsesById(props.surveyId);
   assignResults(results);
   survey.value = await getSurveyById(props.surveyId);
-  console.log(survey.value);
 });
 </script>
+types/general

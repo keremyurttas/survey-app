@@ -1,5 +1,9 @@
 <template>
   <section class="container gap-10 px-5">
+    <all-questions
+      v-if="isAllQuestionsVisible"
+      @close="isAllQuestionsVisible = false"
+    ></all-questions>
     <h2 class="text-center text-3xl text-gray-300">
       {{ surveyDetails.title }}
     </h2>
@@ -15,12 +19,7 @@
         All Questions
       </button>
     </div>
-    <question-type-selector></question-type-selector>
     <add-question-and-answer></add-question-and-answer>
-    <all-questions
-      v-if="isAllQuestionsVisible"
-      @close="isAllQuestionsVisible = false"
-    ></all-questions>
   </section>
 </template>
 <script setup lang="ts">

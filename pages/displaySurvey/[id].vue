@@ -14,7 +14,7 @@
       </div>
 
       <form onsubmit="return false" class="space-y-6">
-        <div class="space-y-2">
+        <div v-if="!activeUser" class="space-y-2">
           <h4 class="text-xl">Your email adress:</h4>
           <input
             placeholder="Enter email"
@@ -61,15 +61,16 @@ import { storeToRefs } from "pinia";
 import { useFirebaseStore } from "~/store/firebase";
 const firebaseStore = useFirebaseStore();
 const { getSurveyById, sendResult } = firebaseStore;
+const { activeUser } = storeToRefs(firebaseStore);
 import { useDisplaySurvey } from "~/store/displaySurvey";
-import { SurveyDetails, Answer, Result } from "~/types/store";
+import { SurveyDetails, Answer, Result } from "~/interfaces/general";
 const { questions } = storeToRefs(useDisplaySurvey());
 const { assignQuestions } = useDisplaySurvey();
 const activeIndex = ref(-1);
 const currentSurvey = ref<SurveyDetails>();
 
 const userEmail = ref("");
-const isValidEmail = ref(false);
+const isValidEmail = ref(activeUser ? true : false);
 const id: any = useRoute().params.id;
 function validateEmail() {
   const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
@@ -99,7 +100,7 @@ function handleNextQuestion(answer: string | string[]) {
     const result: Result = {
       surveyOwner: currentSurvey.value.owner,
       surveyId: id,
-      user: userEmail.value,
+      user: activeUser.value || userEmail.value,
       date: Date.now(),
       answers: answers,
     };
@@ -109,3 +110,4 @@ function handleNextQuestion(answer: string | string[]) {
   }
 }
 </script>
+types/general

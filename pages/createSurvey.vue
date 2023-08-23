@@ -1,9 +1,9 @@
 <template>
   <section
-    class="container flex-col lg:justify-normal lg:gap-20 h-[80vh] justify-between py-10 px-2 lg:p-0"
+    class="container flex-col lg:justify-normal lg:gap-20 gap-32 justify-between py-10 px-2 lg:p-0"
   >
     <div class="space-y-3">
-      <span class="block opacity-70">The title for your survey</span>
+      <span class="opacity-70">The title for your survey</span>
       <input
         type="text"
         placeholder="Title"
@@ -37,11 +37,12 @@ definePageMeta({
   middleware: ["auth"],
 });
 import { useQuestionStudioStore } from "~/store/questionStudio";
+const questionStudio = useQuestionStudioStore();
+const { changeSurveyDetails } = questionStudio;
 
 const description = ref("");
 const title = ref("");
-const questionStudio = useQuestionStudioStore();
-const { changeSurveyDetails } = questionStudio;
+
 
 function saveTitleAndDescription() {
   if (title.value.trim() === "") {

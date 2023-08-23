@@ -1,14 +1,13 @@
 import { defineStore } from "pinia";
-import { Result } from "types/store";
+import { Result } from "interfaces/general";
 
 export const useSurveyResults = defineStore("surveyResults", () => {
   const resultsToShow = ref();
-  const emails: Ref<string[]> = ref([]);
-  function assignResults(results: Result) {
+  const emails = ref();
+  function assignResults(results: Result[]) {
     resultsToShow.value = results;
 
-    resultsToShow.value.forEach((res) => {
-      console.log(res);
+    resultsToShow.value.forEach((res: Result) => {
       emails.value = res.user;
     });
   }

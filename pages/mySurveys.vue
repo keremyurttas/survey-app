@@ -48,7 +48,7 @@
 definePageMeta({
   middleware: ["auth"],
 });
-import { Survey } from "types/composables";
+import { Survey } from "~/interfaces/general";
 import { useFirebaseStore } from "~/store/firebase";
 const firebaseStore = useFirebaseStore();
 const { getSurveysByEmail, activeUser } = firebaseStore;
@@ -59,7 +59,8 @@ const isToastVisible = ref(false);
 
 onMounted(async () => {
   if (activeUser) {
-    surveys.value = await getSurveysByEmail(activeUser);
+    let surveysToSort = await getSurveysByEmail(activeUser);
+    surveys.value = surveysToSort?.sort((a, b) => b.date - a.date);
   }
 });
 function showSurveyResults(id: string) {

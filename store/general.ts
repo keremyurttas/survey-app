@@ -8,7 +8,6 @@ export const useGeneralStore = defineStore("generalStore", () => {
 
   function changeVisibility() {
     const router = useRouter();
-    console.log("asdsad");
     router.push({
       path: "",
       query: {

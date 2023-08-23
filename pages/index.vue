@@ -7,7 +7,6 @@
     </p>
     <nuxt-link to="createSurvey">
       <div
-        aria-hidden="true"
         class="primary-button w-min rounded-full flex items-center aspect-square p-10 font-extrabold shadow-secondary hover:shadow-secondary_hover hover:bg-secondary_hover"
       >
         START

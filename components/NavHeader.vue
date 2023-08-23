@@ -3,20 +3,7 @@
     <h1 class="lg:text-4xl text-2xl text-gray-300">
       <a href="/"> My<mark class="text-primary bg-primary">Survey</mark>App</a>
     </h1>
-    <!-- 
-    <div class="lg:flex justify-evenly w-full items-center text-xl">
-      <button @click="handlePopup()">
-        {{ handleLoginStatus }}
-      </button>
 
-      <div v-if="handleLoginStatus == 'Log-out'" class="text-primary">
-        <nuxt-link to="/mySurveys"> My Surveys </nuxt-link>
-      </div>
-
-      <nuxt-link to="createSurvey" class="primary-button bg-tertary text-black">
-        Create a Survey
-      </nuxt-link>
-    </div> -->
     <div class="">
       <button
         @click="isMobileNavBarActive = !isMobileNavBarActive"

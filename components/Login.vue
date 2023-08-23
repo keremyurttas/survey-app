@@ -61,7 +61,6 @@ const password = ref("");
 async function handleSubmit() {
   //check for active mode
   if (email.value.trim() !== "" && password.value.trim() !== "") {
-    console.log(await signInUser(email.value, password.value));
     modes[activeModeIndex.value] === "sign-in"
       ? //check for is user signed in succesfuly.
         (await signInUser(email.value, password.value)) !== undefined

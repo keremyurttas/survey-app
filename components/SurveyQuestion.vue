@@ -6,6 +6,7 @@
       <div
         class="flex items-center md:justify-between py-4 gap-4"
         v-for="(option, i) in questionDetails.answers"
+        :key="i"
       >
         <label class="lg:text-lg break-all" :for="'option' + i">{{
           i + 1 + ") " + option
@@ -26,6 +27,7 @@
       <div
         class="flex items-center md:justify-between py-4 gap-4"
         v-for="(option, i) in questionDetails.answers"
+        :key="i"
       >
         <label class="lg:text-lg break-all" :for="'option' + i">{{
           i + 1 + ") " + option
@@ -87,7 +89,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Question } from "~/types/store";
+import { Question } from "~/interfaces/general";
 const props = defineProps<{
   questionDetails: Question;
 }>();
@@ -102,7 +104,6 @@ function updateRangeValue(event: Event) {
   rangeValue.value = parseInt(myEl.value);
 }
 function nextQuestion() {
-  console.log(userAnswer);
   props.questionDetails.type === "degree"
     ? emits("answerDetails", rangeValue.value.toString())
     : userAnswer.value.length > 0
@@ -111,3 +112,4 @@ function nextQuestion() {
   userAnswer.value = [];
 }
 </script>
+types/general

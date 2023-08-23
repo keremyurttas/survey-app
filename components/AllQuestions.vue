@@ -10,6 +10,7 @@
             class="text-2xl"
             v-if="questions.length > 0"
             v-for="question in questions"
+            :key="question.question"
           >
             <p class="truncate">{{ question.question }}</p>
             <hr />

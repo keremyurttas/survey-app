@@ -23,3 +23,11 @@ export interface Result {
   answers: Answer[];
 }
 
+export interface Survey {
+  title: string;
+  description: string;
+  owner: null | string;
+  date: number;
+  questions: Question[];
+  id: string;
+}

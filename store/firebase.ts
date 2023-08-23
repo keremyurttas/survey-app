@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
@@ -16,10 +15,8 @@ import {
   getDocs,
   DocumentData,
 } from "firebase/firestore";
-import { Result, SurveyDetails } from "types/store";
+import { Result, SurveyDetails, Survey } from "interfaces/general";
 import { db } from "~/plugins/firebase.client";
-import { Survey } from "~/types/composables";
-
 const isLoading = ref(false);
 
 export const useFirebaseStore = defineStore("firebaseStore", () => {
@@ -69,15 +66,6 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
       isLoading.value = false;
     }
   }
-  // const initUser = computed(() => {
-  //   const auth = getAuth();
-  //   const user = auth.currentUser;
-  //   if (user) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // });
 
   async function sendSurvey(survey: Survey) {
     isLoading.value = true;
@@ -136,19 +124,6 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
     isLoading.value = false;
   }
 
-  // export const getSurveysByEmail(email: string) => {
-  //   const querySnapshot = doc(db, "surveys", "owners", email);
-  //   querySnapshot.forEach((element) => {
-  //     console.log((el: any) => el.data());
-  //   });
-  //   const docSnap = await getDoc(docRef);
-
-  //   if (docSnap.exists()) {
-  //     console.log("Document data:" + docSnap.data());
-  //   } else {
-  //     console.log("No such a doc.");
-  //   }
-  // };
   async function getSurveysByEmail(
     email: string
   ): Promise<Survey[] | undefined> {
@@ -160,7 +135,6 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
       querySnapshot.forEach((doc) => {
         surveys.push({ id: doc.id, ...doc.data() } as Survey);
       });
-      console.log(querySnapshot);
       isLoading.value = false;
       return surveys;
     } catch (error) {
@@ -173,36 +147,9 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
     const q = query(collection(db, "responses", activeUser.value, id));
     const querySnapshot = await getDocs(q);
     const responses = querySnapshot.docs.map((doc) => doc.data());
-    console.log(querySnapshot);
     isLoading.value = false;
     return responses; // Return the responses array
   }
-
-  // export const signInUserWGoogle = async () => {
-  //   const provider = new GoogleAuthProvider();
-  //   const auth = getAuth();
-  //   const info = await signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       // This gives you a Google Access Token. You can use it to access the Google API.
-  //       const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       const token = credential?.accessToken;
-  //       // The signed-in user info.
-  //       const user = result.user;
-  //       // IdP data available using getAdditionalUserInfo(result)
-  //       // ...
-  //     })
-  //     .catch((error) => {
-  //       // Handle Errors here.
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       // The email of the user's account used.
-  //       const email = error.customData.email;
-  //       // The AuthCredential type that was used.
-  //       const credential = GoogleAuthProvider.credentialFromError(error);
-  //       // ...
-  //     });
-  //   return info;
-  // };
 
   const activeUser = ref();
   function initializeActiveUser() {
@@ -213,7 +160,6 @@ export const useFirebaseStore = defineStore("firebaseStore", () => {
   function getUserEmail() {
     const auth = getAuth();
     const user = auth.currentUser;
-    console.log(user);
     if (user !== null) {
       activeUser.value = user.email;
 

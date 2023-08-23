@@ -33,7 +33,11 @@
 
     <section v-if="doesNeedAnAnswer">
       <div class="space-y-3">
-        <div class="space-y-2" v-for="(input, index) in answers.length + 1">
+        <div
+          class="space-y-2"
+          v-for="(input, index) in answers.length + 1"
+          :key="index"
+        >
           <div
             class="flex justify-between p-2 bg-quaternary"
             :class="{
@@ -138,9 +142,8 @@ function handleNextQuestion() {
       question: question.value,
       answers: answers.value,
     });
+    resetForNewQuesiton();
   }
-
-  resetForNewQuesiton();
 }
 function resetForNewQuesiton() {
   activeOptionType.value = "single";
@@ -153,6 +156,7 @@ function resetForNewQuesiton() {
 function sendSurveyToStore() {
   let res = confirm("Do you want to complete the survey?");
   if (res) {
+    handleNextQuestion();
     sendSurvey(getSurvey());
     useRouter().push("/");
   }

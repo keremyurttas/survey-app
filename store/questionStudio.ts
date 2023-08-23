@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import { Survey } from "types/composables";
-import { SurveyDetails, Question } from "~/types/store";
+import { SurveyDetails, Question, Survey } from "interfaces/general";
 ////////Survey/////////
 const surveyDetails = ref<SurveyDetails>({
   title: "",
