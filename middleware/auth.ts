@@ -4,10 +4,13 @@ const { initializeActiveUser } = useFirebaseStore();
 const { activeUser } = storeToRefs(useFirebaseStore());
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const router = useRouter();
-  await initializeActiveUser(); // Make sure to await the initialization
-  {
-    if (!activeUser.value) {
-      router.push("/?loginModal=true");
-    }
+  await initializeActiveUser();
+
+  if (!activeUser.value) {
+    // If active user is not present, navigate to login page
+    router.push("/?loginModal=true");
+  } else {
+    // Active user is present, allow navigation
+    // Note: You can add any additional checks or logic here
   }
 });

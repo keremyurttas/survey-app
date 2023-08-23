@@ -2,7 +2,7 @@
   <my-popup @close="$emit('close')">
     <template #header>{{ results.user }}</template>
 
-    <div class="pt-8">
+    <div class="py-4">
       <div class="mb-8" v-for="(question, i) in questions">
         <h4 class="text-xl">{{ question.question }}</h4>
         <span class="opacity-60">{{ results.answers[i].userOpinion }}</span>
@@ -18,12 +18,4 @@ const props = defineProps<{
 const emit = defineEmits<{
   close: any;
 }>();
-
-// function mergeResultsAndQuestions() {
-//   let res = [];
-//   for (let i = 0; i < props.questions.length; i++) {
-//     res.push(props.questions)
-//   }
-// }
-console.log(props.results);
 </script>

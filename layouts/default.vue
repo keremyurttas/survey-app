@@ -14,7 +14,6 @@ const generalStore = useGeneralStore();
 import { useFirebaseStore } from "~/store/firebase";
 const firebaseStore = useFirebaseStore();
 const { isLoading } = storeToRefs(firebaseStore);
-const { activeUser } = storeToRefs(useFirebaseStore());
 
 const { isLoginPopupVisible } = storeToRefs(generalStore);
 onBeforeMount(() => {

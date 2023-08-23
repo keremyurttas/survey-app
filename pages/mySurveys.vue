@@ -1,5 +1,10 @@
 <template>
   <section v-if="surveys && surveys?.length > 0" class="container">
+    <transition name="slide-fade">
+      <my-toast v-if="isToastVisible" @close="isToastVisible = false">
+        Survey url copied to clipboard.
+      </my-toast>
+    </transition>
     <results-popup
       v-if="isPopupVisible"
       @close="closePopup"
@@ -50,12 +55,12 @@ const { getSurveysByEmail, activeUser } = firebaseStore;
 const surveys = ref<Survey[]>();
 const isPopupVisible = ref(false);
 const surveyIdForResults = ref("");
+const isToastVisible = ref(false);
 
 onMounted(async () => {
   if (activeUser) {
     surveys.value = await getSurveysByEmail(activeUser);
   }
-  console.log(surveys.value);
 });
 function showSurveyResults(id: string) {
   surveyIdForResults.value = id;
@@ -74,10 +79,29 @@ function copyTheSurveyUrl(text: string) {
   navigator.clipboard
     .writeText(domain + "/displaySurvey/" + text)
     .then(() => {
-      console.log("Text copied to clipboard");
+      isToastVisible.value = true;
+      setTimeout(() => {
+        isToastVisible.value = false;
+      }, 3000);
     })
     .catch((error) => {
       console.error("Failed to copy text: ", error);
     });
 }
 </script>
+<style>
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(40px);
+  opacity: 0;
+}
+</style>
+t

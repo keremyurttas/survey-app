@@ -13,33 +13,25 @@
       </h2>
     </template>
     <div v-if="resultsToShow">
-      <div class="py-10">
+      <div class="pb-10 pt-4">
         <div v-if="survey" class="text-center">
           <div class="space-y-4">
             <h3 class="text-3xl text-center">
-              {{ resultsToShow.length > 0 ? "Users" : "No results to show :(" }}
+              {{ resultsToShow.length > 0 ? "Attendees" : "No results to show :(" }}
             </h3>
             <div v-for="(result, i) in resultsToShow" :key="result">
-              <button
-                class="text-xl text-start"
-                @click="showUserOpinion(result.user)"
-              >
-                {{ i + 1 }}
+              <div class="text-xl flex items-center justify-between px-20">
                 {{ result.user }}
-              </button>
+                <button
+                  @click="showUserOpinion(result.user)"
+                  type="button"
+                  class="text-white bg-blue-700 w-max hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg p-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 text-xs"
+                >
+                  Inspect
+                </button>
+              </div>
             </div>
           </div>
-          <!-- <div class="w-1 bg-tertary"></div>
-        <div class="space-y-4">
-          <h3 class="text-3xl text-center">Questions</h3>
-
-          <div v-for="(question, i) in survey.questions">
-            <button class="text-xl text-start w-full">
-              {{ i + 1 }}
-              {{ question.question }}
-            </button>
-          </div>
-        </div> -->
         </div>
       </div>
     </div>
@@ -62,11 +54,6 @@
       </svg>
       <span class="text-2xl">Loading...</span>
     </div>
-
-    <!-- Display other survey properties here -->
-
-    <!-- <h2>{{ survey }}</h2>
-    <h4>{{ survey.description }}</h4> -->
   </my-popup>
 </template>
 <script setup lang="ts">
