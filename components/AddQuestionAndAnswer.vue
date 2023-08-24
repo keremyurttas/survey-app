@@ -154,11 +154,24 @@ function resetForNewQuesiton() {
 }
 
 function sendSurveyToStore() {
-  let res = confirm("Do you want to complete the survey?");
-  if (res) {
-    handleNextQuestion();
-    sendSurvey(getSurvey());
-    useRouter().push("/");
+  if (getSurvey().questions.length > 0) {
+    let res = confirm("Do you want to complete the survey?");
+    if (res) {
+      if (question.value.trim() !== "") {
+        let unfinishedQuestion = confirm(
+          "There is a question that you didn't send. Do you want to complete anyway?"
+        );
+        if (unfinishedQuestion) {
+          sendSurvey(getSurvey());
+          useRouter().push("/");
+        }
+      } else {
+        sendSurvey(getSurvey());
+        useRouter().push("/");
+      }
+    }
+  } else {
+    alert("Please at least add one question to complete the survey.");
   }
 }
 </script>
